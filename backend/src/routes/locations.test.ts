@@ -72,4 +72,25 @@ describe('locations API', () => {
     expect(listResponse.body.locations).toHaveLength(1);
     expect(listResponse.body.locations[0].weather.condition).toBe('Cloudy');
   });
+
+  it('deletes a location', async () => {
+    const createResponse = await request(app)
+      .post('/api/locations')
+      .send({ latitude: 1.36, longitude: 103.86 })
+      .expect(201);
+
+    const locationId = createResponse.body.id;
+
+    await request(app).delete(`/api/locations/${locationId}`).expect(204);
+    await request(app).get(`/api/locations/${locationId}`).expect(404);
+
+    const listResponse = await request(app).get('/api/locations').expect(200);
+    expect(listResponse.body.locations.map((location: { id: number }) => location.id)).not.toContain(
+      locationId,
+    );
+  });
+
+  it('returns 404 when deleting an unknown location', async () => {
+    await request(app).delete('/api/locations/9999').expect(404);
+  });
 });

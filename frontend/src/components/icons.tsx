@@ -72,12 +72,22 @@ export function RefreshIcon({ className = 'h-4 w-4' }: IconProps) {
 
 export function MoonIcon({ className = 'h-12 w-12' }: IconProps) {
   return (
-    <svg viewBox="0 0 24 24" className={className} fill="currentColor">
-      <circle cx="12" cy="12" r="10" opacity="0.85" />
-      <circle cx="9" cy="9" r="1.2" fill="rgba(0,0,0,0.18)" />
-      <circle cx="14" cy="11" r="1.6" fill="rgba(0,0,0,0.18)" />
-      <circle cx="11" cy="15" r="1" fill="rgba(0,0,0,0.18)" />
-      <circle cx="16" cy="15" r="0.8" fill="rgba(0,0,0,0.18)" />
+    <svg viewBox="0 0 24 24" className={className} {...base}>
+      <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z" />
+    </svg>
+  );
+}
+
+export function CloudRainIcon({ className = 'h-5 w-5' }: IconProps) {
+  return (
+    <svg viewBox="0 0 24 24" className={className} {...base}>
+      <path d="M20 17.58A5 5 0 0 0 18 8h-1.26A8 8 0 1 0 4 16.25" />
+      <line x1="8" y1="19" x2="8" y2="21" />
+      <line x1="8" y1="13" x2="8" y2="15" />
+      <line x1="16" y1="19" x2="16" y2="21" />
+      <line x1="16" y1="13" x2="16" y2="15" />
+      <line x1="12" y1="21" x2="12" y2="23" />
+      <line x1="12" y1="15" x2="12" y2="17" />
     </svg>
   );
 }

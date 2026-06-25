@@ -1,4 +1,5 @@
-import { CloudIcon, DropletIcon, SunIcon, ThermometerIcon, TrendIcon, WindIcon } from './icons';
+import { CloudIcon, CloudRainIcon, DropletIcon, MoonIcon, SunIcon, ThermometerIcon, TrendIcon, WindIcon } from './icons';
+import { formatTime } from './format';
 import type { ReactNode } from 'react';
 import type { WeatherSnapshot } from '../types';
 
@@ -244,9 +245,102 @@ export function AveragesTile({ weather }: WeatherProps) {
   );
 }
 
+// NEA Singapore forecast strings include:
+// Fair (Day/Night), Fair & Warm, Partly Cloudy (Day/Night),
+// Cloudy, Overcast, Hazy, Slightly Hazy,
+// Light Rain, Moderate Rain, Heavy Rain,
+// Light Showers, Moderate Showers, Heavy Showers,
+// Thundery Showers, Heavy Thundery Showers,
+// Heavy Thundery Showers with Gusty Winds,
+// Windy, Windy, Rain, Windy, Cloudy
+type ConditionCategory = 'sunny' | 'fair-night' | 'cloudy' | 'rainy' | 'stormy' | 'hazy';
+
+function categorizeCondition(condition: string | null | undefined): ConditionCategory {
+  if (!condition) return 'cloudy';
+  const lower = condition.toLowerCase();
+
+  // Thunderstorm / gusty — most severe, check first
+  if (lower.includes('thunder') || lower.includes('gusty')) return 'stormy';
+
+  // Rain / showers
+  if (
+    lower.includes('rain') ||
+    lower.includes('shower') ||
+    lower.includes('drizzle')
+  )
+    return 'rainy';
+
+  // Hazy
+  if (lower.includes('haz')) return 'hazy';
+
+  // Fair or sunny — daytime
+  if (
+    (lower.includes('fair') || lower.includes('sunny') || lower.includes('clear') || lower.includes('warm')) &&
+    !lower.includes('night')
+  )
+    return 'sunny';
+
+  // Fair night / partly cloudy night
+  if (lower.includes('night')) return 'fair-night';
+
+  // Everything else: cloudy, overcast, windy, partly cloudy (day), etc.
+  return 'cloudy';
+}
+
+function ConditionIcon({ condition }: { condition: string | null | undefined }) {
+  const category = categorizeCondition(condition);
+  switch (category) {
+    case 'sunny':
+      return <SunIcon className="h-14 w-14 text-amber-300" />;
+    case 'fair-night':
+      return <MoonIcon className="h-14 w-14 text-indigo-200" />;
+    case 'rainy':
+      return <CloudRainIcon className="h-14 w-14 text-sky-300" />;
+    case 'stormy':
+      return <CloudRainIcon className="h-14 w-14 text-violet-300" />;
+    case 'hazy':
+      return <CloudIcon className="h-14 w-14 text-amber-200/70" />;
+    case 'cloudy':
+    default:
+      return <CloudIcon className="h-14 w-14 text-white/70" />;
+  }
+}
+
+export function ConditionTile({ weather }: WeatherProps) {
+  const condition = weather?.condition ?? 'Unavailable';
+  const area = weather?.area;
+  const validPeriod = weather?.valid_period_text;
+  const observed = formatTime(weather?.observed_at);
+
+  return (
+    <TileShell
+      icon={<CloudIcon className="h-3.5 w-3.5" />}
+      title="Conditions"
+      className="col-span-2"
+    >
+      <div className="flex items-center gap-4">
+        <ConditionIcon condition={weather?.condition} />
+        <div className="min-w-0">
+          <div className="text-2xl font-light leading-snug text-white/95">{condition}</div>
+          <div className="mt-2 space-y-1 text-xs text-white/70">
+            {area && (
+              <p>
+                Nearest area: <span className="text-white/90">{area}</span>
+              </p>
+            )}
+            {validPeriod && <p>{validPeriod}</p>}
+            {observed && <p>Updated {observed}</p>}
+          </div>
+        </div>
+      </div>
+    </TileShell>
+  );
+}
+
 export function TileGrid({ weather }: WeatherProps) {
   return (
     <div className="grid grid-cols-2 gap-3 lg:grid-cols-4">
+      <ConditionTile weather={weather} />
       <AirQualityTile weather={weather} />
       <WindTile weather={weather} />
       <UVTile weather={weather} />

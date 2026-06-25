@@ -1,7 +1,7 @@
 import { useStore } from '../state/store';
-import { CloudIcon, HomeIcon } from './icons';
+import { CloseIcon, CloudIcon, HomeIcon } from './icons';
 import { formatTemperature, formatTime } from './format';
-import type { KeyboardEvent } from 'react';
+import type { KeyboardEvent, MouseEvent } from 'react';
 import type { Location } from '../types';
 
 interface SidebarCardProps {
@@ -10,8 +10,9 @@ interface SidebarCardProps {
 }
 
 export function SidebarCard({ location, isHome }: SidebarCardProps) {
-  const { selectedId, select } = useStore();
+  const { selectedId, select, deleteLocation, deletingId } = useStore();
   const isSelected = selectedId === location.id;
+  const isDeleting = deletingId === location.id;
   const observed = formatTime(location.weather.observed_at);
   const area =
     location.weather.area || `${location.latitude.toFixed(3)}, ${location.longitude.toFixed(3)}`;
@@ -28,6 +29,11 @@ export function SidebarCard({ location, isHome }: SidebarCardProps) {
       onSelect();
     }
   };
+  const onDelete = (event: MouseEvent<HTMLButtonElement>) => {
+    event.stopPropagation();
+    void deleteLocation(location.id);
+  };
+
   return (
     <div
       role="button"
@@ -41,7 +47,18 @@ export function SidebarCard({ location, isHome }: SidebarCardProps) {
           : 'border-white/10 bg-white/[0.07] hover:bg-white/[0.12]'
       }`}
     >
-      <div className="flex items-start justify-between gap-3 px-4 pt-3">
+      <button
+        type="button"
+        onClick={onDelete}
+        disabled={isDeleting}
+        aria-label={`Delete ${area}`}
+        title="Delete location"
+        className="absolute right-2 top-2 z-10 flex h-7 w-7 items-center justify-center rounded-full border border-white/10 bg-black/20 text-white/70 transition hover:border-red-200/40 hover:bg-red-500/30 hover:text-white focus:outline-none focus:ring-2 focus:ring-white/60 disabled:pointer-events-none disabled:opacity-40"
+      >
+        <CloseIcon className="h-3.5 w-3.5" />
+      </button>
+
+      <div className="flex items-start justify-between gap-3 pl-4 pr-11 pt-3">
         <div className="min-w-0">
           <div className="truncate text-lg font-semibold leading-tight text-white">{area}</div>
           <div className="mt-0.5 flex items-center gap-1.5 text-[11px] text-white/70">
