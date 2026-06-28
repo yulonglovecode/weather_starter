@@ -1,5 +1,6 @@
 import { CloudIcon, CloudRainIcon, DropletIcon, GaugeIcon, MoonIcon, SunIcon, ThermometerIcon, TrendIcon, WindIcon } from './icons';
 import { formatTime } from './format';
+import { MapCard } from './MapCard';
 import type { ReactNode } from 'react';
 import type { WeatherSnapshot } from '../types';
 
@@ -14,7 +15,7 @@ interface TileShellProps {
   children: ReactNode;
 }
 
-function TileShell({ icon, title, className = '', children }: TileShellProps) {
+export function TileShell({ icon, title, className = '', children }: TileShellProps) {
   return (
     <section
       className={`flex flex-col gap-3 rounded-2xl border border-white/15 bg-white/[0.08] p-4 backdrop-blur-xl ${className}`}
@@ -348,6 +349,7 @@ export function TileGrid({ weather }: WeatherProps) {
       <PrecipitationTile weather={weather} />
       <HumidityTile weather={weather} />
       <AveragesTile weather={weather} />
+      <MapCard />
     </div>
   );
 }
