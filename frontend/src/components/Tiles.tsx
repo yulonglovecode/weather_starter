@@ -1,4 +1,4 @@
-import { CloudIcon, CloudRainIcon, DropletIcon, MoonIcon, SunIcon, ThermometerIcon, TrendIcon, WindIcon } from './icons';
+import { CloudIcon, CloudRainIcon, DropletIcon, GaugeIcon, MoonIcon, SunIcon, ThermometerIcon, TrendIcon, WindIcon } from './icons';
 import { formatTime } from './format';
 import type { ReactNode } from 'react';
 import type { WeatherSnapshot } from '../types';
@@ -81,7 +81,7 @@ export function AirQualityTile({ weather }: WeatherProps) {
 
   return (
     <TileShell
-      icon={<CloudIcon className="h-3.5 w-3.5" />}
+      icon={<GaugeIcon className="h-3.5 w-3.5" />}
       title="Air Quality"
       className="col-span-2"
     >
@@ -91,11 +91,11 @@ export function AirQualityTile({ weather }: WeatherProps) {
       </div>
       <ScaleBar
         value={weather?.psi_twenty_four_hourly}
-        max={300}
+        max={400}
         gradientClass="bg-gradient-to-r from-emerald-400 via-yellow-300 via-orange-400 to-red-500"
       />
       <p className="mt-3 text-xs leading-snug text-white/70">
-        PM2.5 {pm25} ug/m3 · {weather?.air_quality_region ?? 'nearest'} region
+        PM2.5 {pm25} µg/m³ · {weather?.air_quality_region ?? 'nearest'} region
       </p>
     </TileShell>
   );
