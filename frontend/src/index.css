@@ -10,12 +10,34 @@ body,
 
 body {
   @apply text-white antialiased;
-  background:
+  background: var(--body-bg,
+    radial-gradient(120% 80% at 70% 0%, rgba(255, 255, 255, 0.18) 0%, transparent 55%),
+    radial-gradient(90% 70% at 10% 100%, rgba(80, 110, 150, 0.55) 0%, transparent 60%),
+    linear-gradient(170deg, #6f8aa8 0%, #5a7591 35%, #4a627c 65%, #3c5066 100%)
+  );
+  background-attachment: fixed;
+  background-repeat: no-repeat;
+}
+
+/* Theme-aware sidebar background — consumed by Sidebar via inline style */
+:root {
+  --sidebar-bg: rgba(0, 0, 0, 0.20);
+  --body-bg:
     radial-gradient(120% 80% at 70% 0%, rgba(255, 255, 255, 0.18) 0%, transparent 55%),
     radial-gradient(90% 70% at 10% 100%, rgba(80, 110, 150, 0.55) 0%, transparent 60%),
     linear-gradient(170deg, #6f8aa8 0%, #5a7591 35%, #4a627c 65%, #3c5066 100%);
-  background-attachment: fixed;
-  background-repeat: no-repeat;
+  --text-primary: rgba(255, 255, 255, 1);
+  --text-dim: rgba(255, 255, 255, 0.70);
+}
+
+/* Cherry Blossom is a light theme — invert text colors */
+[data-theme='blossom'] {
+  --text-primary: rgba(80, 20, 40, 1);
+  --text-dim: rgba(80, 20, 40, 0.65);
+}
+
+[data-theme='blossom'] body {
+  color: var(--text-primary);
 }
 
 button,
