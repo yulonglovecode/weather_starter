@@ -40,6 +40,121 @@ body {
   color: var(--text-primary);
 }
 
+/* ─── Arctic Haze — light theme ─────────────────────────────────────────── */
+/*
+ * All components use Tailwind's text-white/*, border-white/*, bg-white/* and
+ * divide-white/* classes. On a light background these become invisible.
+ * We override them here by replacing white (255 255 255) with a dark slate ink
+ * (30 42 58) at the same alpha values so relative opacity reads correctly.
+ *
+ * Card / section surfaces use bg-white/[0.08] which is too transparent on
+ * light. We give them a solid white/80 surface with a slate border instead.
+ */
+[data-theme='arctic'] body {
+  color: rgb(30 42 58);
+}
+
+/* Prose text — mirror the exact alpha steps used across components */
+[data-theme='arctic'] .text-white\/95,
+[data-theme='arctic'] .text-white\/90,
+[data-theme='arctic'] .text-white\/85 { color: rgb(30 42 58 / 0.92); }
+
+[data-theme='arctic'] .text-white\/80,
+[data-theme='arctic'] .text-white\/75 { color: rgb(30 42 58 / 0.75); }
+
+[data-theme='arctic'] .text-white\/70,
+[data-theme='arctic'] .text-white\/65 { color: rgb(30 42 58 / 0.65); }
+
+[data-theme='arctic'] .text-white\/60,
+[data-theme='arctic'] .text-white\/55 { color: rgb(30 42 58 / 0.55); }
+
+[data-theme='arctic'] .text-white { color: rgb(30 42 58); }
+
+/* Card / section surfaces */
+[data-theme='arctic'] .bg-white\/\[0\.08\],
+[data-theme='arctic'] .bg-white\/\[0\.07\],
+[data-theme='arctic'] .bg-white\/\[0\.06\],
+[data-theme='arctic'] .bg-white\/\[0\.04\],
+[data-theme='arctic'] .bg-white\/\[0\.1\],
+[data-theme='arctic'] .bg-white\/\[0\.10\] {
+  background-color: rgba(255, 255, 255, 0.72) !important;
+}
+
+/* Selected sidebar card */
+[data-theme='arctic'] .bg-white\/20 {
+  background-color: rgba(255, 255, 255, 0.85) !important;
+}
+
+/* Hover state on sidebar cards */
+[data-theme='arctic'] .hover\:bg-white\/\[0\.12\]:hover {
+  background-color: rgba(255, 255, 255, 0.80) !important;
+}
+
+[data-theme='arctic'] .hover\:bg-white\/\[0\.14\]:hover {
+  background-color: rgba(255, 255, 255, 0.82) !important;
+}
+
+/* Borders */
+[data-theme='arctic'] .border-white\/15,
+[data-theme='arctic'] .border-white\/10,
+[data-theme='arctic'] .border-white\/5 {
+  border-color: rgb(30 42 58 / 0.14) !important;
+}
+
+[data-theme='arctic'] .border-white\/20 {
+  border-color: rgb(30 42 58 / 0.18) !important;
+}
+
+[data-theme='arctic'] .border-white\/30 {
+  border-color: rgb(30 42 58 / 0.28) !important;
+}
+
+/* Dividers (divide-white/*) */
+[data-theme='arctic'] .divide-white\/5 > * + * {
+  border-color: rgb(30 42 58 / 0.08) !important;
+}
+
+/* Compass needle and scale-bar track */
+[data-theme='arctic'] .bg-white\/\[0\.04\] { background-color: rgba(30,42,58,0.06) !important; }
+[data-theme='arctic'] .bg-white\/10 { background-color: rgba(30,42,58,0.10) !important; }
+[data-theme='arctic'] .bg-white\/70 { background-color: rgba(30,42,58,0.55) !important; }
+
+/* Sidebar "no locations" dashed border */
+[data-theme='arctic'] .border-white\/15 { border-color: rgb(30 42 58 / 0.16) !important; }
+
+/* Delete button on sidebar cards */
+[data-theme='arctic'] .bg-black\/20 { background-color: rgba(30,42,58,0.10) !important; }
+
+/* Refresh / add-location button backgrounds */
+[data-theme='arctic'] .bg-white\/\[0\.08\] { background-color: rgba(255,255,255,0.65) !important; }
+
+/* ThemeSelector dropdown panel */
+[data-theme='arctic'] .bg-slate-900\/80 {
+  background-color: rgba(255, 255, 255, 0.92) !important;
+  color: rgb(30 42 58) !important;
+}
+[data-theme='arctic'] .bg-slate-900\/80 li { color: rgb(30 42 58 / 0.80); }
+[data-theme='arctic'] .bg-slate-900\/80 li[aria-selected='true'] { color: rgb(30 42 58); }
+[data-theme='arctic'] .bg-slate-900\/80 .hover\:bg-white\/10:hover { background-color: rgba(30,42,58,0.08) !important; }
+
+/* Scrollbar in arctic matches the light surface */
+[data-theme='arctic'] ::-webkit-scrollbar-thumb {
+  background: rgba(30, 42, 58, 0.15);
+}
+
+/* Add-location form submit button — keep dark ink on white pill */
+[data-theme='arctic'] .bg-white\/90,
+[data-theme='arctic'] .hover\:bg-white:hover {
+  background-color: rgba(30,42,58,0.85) !important;
+  color: white !important;
+}
+
+/* Focus ring — use slate instead of white */
+[data-theme='arctic'] button:focus-visible,
+[data-theme='arctic'] input:focus-visible {
+  --tw-ring-color: rgba(30, 42, 58, 0.35);
+}
+
 button,
 input {
   @apply transition;
@@ -62,4 +177,144 @@ input:focus-visible {
 
 ::-webkit-scrollbar-track {
   background: transparent;
+}
+
+/* ─── Midnight Terminal — dark monospace cyberpunk ──────────────────────── */
+/*
+ * Character: monospace font stack throughout, neon #00ff88 accent replacing
+ * white-alpha prose, solid #111/#1a1a1a card surfaces, no backdrop-blur,
+ * square rounded-md corners overriding rounded-2xl everywhere.
+ *
+ * Text strategy: white stays white but we shift dim/muted values toward the
+ * neon green so the "terminal glow" reads correctly.
+ */
+
+[data-theme='midnight'] body {
+  font-family: 'ui-monospace', 'SFMono-Regular', 'Menlo', 'Monaco', 'Consolas',
+    'Liberation Mono', 'Courier New', monospace;
+}
+
+/* Cascade monospace to all text nodes */
+[data-theme='midnight'] * {
+  font-family: inherit;
+}
+
+/* ── Accent: dim muted whites → neon green tints ── */
+[data-theme='midnight'] .text-white\/60,
+[data-theme='midnight'] .text-white\/55 {
+  color: rgba(0, 255, 136, 0.65) !important;
+}
+
+[data-theme='midnight'] .text-white\/70,
+[data-theme='midnight'] .text-white\/65 {
+  color: rgba(0, 255, 136, 0.75) !important;
+}
+
+/* Header / label text (uppercase tile labels) → full neon */
+[data-theme='midnight'] header .text-white\/60,
+[data-theme='midnight'] .uppercase.text-white\/60,
+[data-theme='midnight'] .tracking-\[0\.14em\].text-white\/60 {
+  color: rgba(0, 255, 136, 0.80) !important;
+}
+
+/* ── Card surfaces: replace translucent white with solid terminal panels ── */
+[data-theme='midnight'] .bg-white\/\[0\.08\],
+[data-theme='midnight'] .bg-white\/\[0\.07\],
+[data-theme='midnight'] .bg-white\/\[0\.06\],
+[data-theme='midnight'] .bg-white\/\[0\.04\],
+[data-theme='midnight'] .bg-white\/\[0\.1\],
+[data-theme='midnight'] .bg-white\/\[0\.10\] {
+  background-color: #111111 !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+}
+
+/* Selected sidebar card */
+[data-theme='midnight'] .bg-white\/20 {
+  background-color: #1c1c1c !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+}
+
+/* Hover states */
+[data-theme='midnight'] .hover\:bg-white\/\[0\.12\]:hover {
+  background-color: #1a1a1a !important;
+}
+[data-theme='midnight'] .hover\:bg-white\/\[0\.14\]:hover {
+  background-color: #1c1c1c !important;
+}
+
+/* Scale-bar track and small bg tints */
+[data-theme='midnight'] .bg-white\/10 { background-color: rgba(0,255,136,0.12) !important; }
+[data-theme='midnight'] .bg-white\/\[0\.04\] { background-color: rgba(0,255,136,0.06) !important; }
+[data-theme='midnight'] .bg-white\/70 { background-color: rgba(0,255,136,0.55) !important; }
+
+/* Delete / icon button backing */
+[data-theme='midnight'] .bg-black\/20 { background-color: rgba(0,0,0,0.45) !important; }
+
+/* Add-location submit pill */
+[data-theme='midnight'] .bg-white\/90 {
+  background-color: #00ff88 !important;
+  color: #0a0a0a !important;
+}
+[data-theme='midnight'] .hover\:bg-white:hover {
+  background-color: #00ff88 !important;
+  color: #0a0a0a !important;
+}
+
+/* ── Borders: replace white-alpha with neon-tinted dark lines ── */
+[data-theme='midnight'] .border-white\/5,
+[data-theme='midnight'] .border-white\/10,
+[data-theme='midnight'] .border-white\/15 {
+  border-color: rgba(0, 255, 136, 0.18) !important;
+}
+
+[data-theme='midnight'] .border-white\/20 {
+  border-color: rgba(0, 255, 136, 0.22) !important;
+}
+
+[data-theme='midnight'] .border-white\/30 {
+  border-color: rgba(0, 255, 136, 0.32) !important;
+}
+
+/* Dividers */
+[data-theme='midnight'] .divide-white\/5 > * + * {
+  border-color: rgba(0, 255, 136, 0.10) !important;
+}
+
+/* ── Corners: override rounded-2xl / rounded-3xl → rounded-md (square feel) ── */
+[data-theme='midnight'] .rounded-2xl { border-radius: 0.375rem !important; }
+[data-theme='midnight'] .rounded-3xl { border-radius: 0.375rem !important; }
+[data-theme='midnight'] .rounded-full { border-radius: 0.25rem !important; }
+[data-theme='midnight'] .rounded-lg   { border-radius: 0.25rem !important; }
+[data-theme='midnight'] .rounded-xl   { border-radius: 0.375rem !important; }
+[data-theme='midnight'] .rounded-md   { border-radius: 0.25rem !important; }
+
+/* ThemeSelector dropdown panel */
+[data-theme='midnight'] .bg-slate-900\/80 {
+  background-color: #111111 !important;
+  border-color: rgba(0, 255, 136, 0.25) !important;
+}
+
+/* Scrollbar */
+[data-theme='midnight'] ::-webkit-scrollbar-thumb {
+  background: rgba(0, 255, 136, 0.20);
+  border-radius: 0;
+}
+
+/* Focus ring → neon green */
+[data-theme='midnight'] button:focus-visible,
+[data-theme='midnight'] input:focus-visible {
+  --tw-ring-color: rgba(0, 255, 136, 0.50);
+}
+
+/* Input fields */
+[data-theme='midnight'] input[type='text'],
+[data-theme='midnight'] input[type='number'] {
+  background-color: #0a0a0a !important;
+  border-color: rgba(0, 255, 136, 0.22) !important;
+  color: #ffffff !important;
+}
+[data-theme='midnight'] input::placeholder {
+  color: rgba(0, 255, 136, 0.35) !important;
 }

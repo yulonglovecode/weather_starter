@@ -9,6 +9,16 @@ export interface Theme {
 
 export const themes: Theme[] = [
   {
+    id: 'arctic',
+    label: 'Arctic Haze',
+    bodyBackground: `
+      radial-gradient(120% 80% at 70% 0%, rgba(255,255,255,0.60) 0%, transparent 55%),
+      radial-gradient(90% 70% at 10% 100%, rgba(140,165,200,0.40) 0%, transparent 60%),
+      linear-gradient(170deg, #e8edf4 0%, #d8e4f0 40%, #c8d8ea 100%)
+    `.trim(),
+    sidebarBg: 'rgba(200,215,235,0.55)',
+  },
+  {
     id: 'apple',
     label: 'Apple',
     bodyBackground: `
