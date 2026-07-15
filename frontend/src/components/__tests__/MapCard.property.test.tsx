@@ -13,7 +13,7 @@
 import React from 'react';
 import { describe, it, expect, vi, beforeEach } from 'vitest';
 import * as fc from 'fast-check';
-import { render, screen, cleanup, fireEvent } from '@testing-library/react';
+import { render, cleanup, fireEvent } from '@testing-library/react';
 import type { Location, WeatherSnapshot } from '../../types';
 
 // ---------------------------------------------------------------------------
@@ -98,12 +98,10 @@ const arbLocation: fc.Arbitrary<Location> = fc.record({
 });
 
 /** Array of 0–20 distinct-id locations */
-const arbLocations = fc
-  .array(arbLocation, { minLength: 0, maxLength: 20 })
-  .map((locs) => {
-    // Ensure unique ids by re-assigning monotonically
-    return locs.map((loc, idx) => ({ ...loc, id: idx + 1 }));
-  });
+const arbLocations = fc.array(arbLocation, { minLength: 0, maxLength: 20 }).map((locs) => {
+  // Ensure unique ids by re-assigning monotonically
+  return locs.map((loc, idx) => ({ ...loc, id: idx + 1 }));
+});
 
 /** Array of 1–10 distinct-id locations */
 const arbLocations1to10 = fc
@@ -127,12 +125,7 @@ describe('Property 5: Pin count matches location count', () => {
         const { container } = render(
           <>
             {locations.map((loc) => (
-              <MapPin
-                key={loc.id}
-                location={loc}
-                isSelected={false}
-                onSelect={onSelect}
-              />
+              <MapPin key={loc.id} location={loc} isSelected={false} onSelect={onSelect} />
             ))}
           </>,
         );
@@ -229,12 +222,7 @@ describe('Property 7: Pin click triggers correct selection', () => {
         const { container } = render(
           <>
             {locations.map((loc) => (
-              <MapPin
-                key={loc.id}
-                location={loc}
-                isSelected={false}
-                onSelect={onSelect}
-              />
+              <MapPin key={loc.id} location={loc} isSelected={false} onSelect={onSelect} />
             ))}
           </>,
         );

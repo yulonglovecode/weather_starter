@@ -11,10 +11,7 @@ import { formatWeatherLabel } from '../mapUtils';
 import type { WeatherSnapshot } from '../../types';
 
 /** Build a minimal WeatherSnapshot for testing. */
-function makeWeather(
-  temperature_c: number | null,
-  condition: string | null,
-): WeatherSnapshot {
+function makeWeather(temperature_c: number | null, condition: string | null): WeatherSnapshot {
   return {
     temperature_c,
     condition,

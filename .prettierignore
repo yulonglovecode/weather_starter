@@ -1,0 +1,20 @@
+# Build outputs
+frontend/dist
+backend/dist
+
+# Dependencies
+node_modules
+frontend/node_modules
+backend/node_modules
+
+# Generated migrations
+backend/drizzle
+
+# Logs and databases
+backend/logs
+backend/*.db
+backend/*.db-shm
+backend/*.db-wal
+
+# Lock files
+package-lock.json

@@ -1,4 +1,14 @@
-import { CloudIcon, CloudRainIcon, DropletIcon, GaugeIcon, MoonIcon, SunIcon, ThermometerIcon, TrendIcon, WindIcon } from './icons';
+import {
+  CloudIcon,
+  CloudRainIcon,
+  DropletIcon,
+  GaugeIcon,
+  MoonIcon,
+  SunIcon,
+  ThermometerIcon,
+  TrendIcon,
+  WindIcon,
+} from './icons';
 import { formatTime } from './format';
 import { MapCard } from './MapCard';
 import type { ReactNode } from 'react';
@@ -264,11 +274,7 @@ function categorizeCondition(condition: string | null | undefined): ConditionCat
   if (lower.includes('thunder') || lower.includes('gusty')) return 'stormy';
 
   // Rain / showers
-  if (
-    lower.includes('rain') ||
-    lower.includes('shower') ||
-    lower.includes('drizzle')
-  )
+  if (lower.includes('rain') || lower.includes('shower') || lower.includes('drizzle'))
     return 'rainy';
 
   // Hazy
@@ -276,7 +282,10 @@ function categorizeCondition(condition: string | null | undefined): ConditionCat
 
   // Fair or sunny — daytime
   if (
-    (lower.includes('fair') || lower.includes('sunny') || lower.includes('clear') || lower.includes('warm')) &&
+    (lower.includes('fair') ||
+      lower.includes('sunny') ||
+      lower.includes('clear') ||
+      lower.includes('warm')) &&
     !lower.includes('night')
   )
     return 'sunny';

@@ -194,14 +194,39 @@ export class SingaporeWeatherClient {
       fourDayResult,
     ] = await Promise.all([
       this.fetchLatestForecastPayload().catch(() => null),
-      this.fetchNearestReading('air-temperature', latitude, longitude).catch(() => ({ value: null, timestamp: null })),
-      this.fetchNearestReading('relative-humidity', latitude, longitude).catch(() => ({ value: null, timestamp: null })),
-      this.fetchNearestReading('rainfall', latitude, longitude).catch(() => ({ value: null, timestamp: null })),
-      this.fetchNearestReading('wind-speed', latitude, longitude).catch(() => ({ value: null, timestamp: null })),
-      this.fetchNearestReading('wind-direction', latitude, longitude).catch(() => ({ value: null, timestamp: null })),
+      this.fetchNearestReading('air-temperature', latitude, longitude).catch(() => ({
+        value: null,
+        timestamp: null,
+      })),
+      this.fetchNearestReading('relative-humidity', latitude, longitude).catch(() => ({
+        value: null,
+        timestamp: null,
+      })),
+      this.fetchNearestReading('rainfall', latitude, longitude).catch(() => ({
+        value: null,
+        timestamp: null,
+      })),
+      this.fetchNearestReading('wind-speed', latitude, longitude).catch(() => ({
+        value: null,
+        timestamp: null,
+      })),
+      this.fetchNearestReading('wind-direction', latitude, longitude).catch(() => ({
+        value: null,
+        timestamp: null,
+      })),
       this.fetchUvIndex().catch(() => ({ value: null, timestamp: null })),
-      this.fetchAirQuality(latitude, longitude).catch(() => ({ psi: null, pm25: null, region: null, timestamp: null })),
-      this.fetchTwentyFourHourForecast(latitude, longitude).catch(() => ({ low: null, high: null, periods: [], timestamp: null })),
+      this.fetchAirQuality(latitude, longitude).catch(() => ({
+        psi: null,
+        pm25: null,
+        region: null,
+        timestamp: null,
+      })),
+      this.fetchTwentyFourHourForecast(latitude, longitude).catch(() => ({
+        low: null,
+        high: null,
+        periods: [],
+        timestamp: null,
+      })),
       this.fetchFourDayForecast().catch(() => ({ days: [], timestamp: null })),
     ]);
 
@@ -222,7 +247,10 @@ export class SingaporeWeatherClient {
       air_quality_region: airQualityResult.region,
       forecast_low_c: twentyFourHourResult.low,
       forecast_high_c: twentyFourHourResult.high,
-      forecast_periods: twentyFourHourResult.periods.length > 0 ? twentyFourHourResult.periods : base.forecast_periods,
+      forecast_periods:
+        twentyFourHourResult.periods.length > 0
+          ? twentyFourHourResult.periods
+          : base.forecast_periods,
       daily_forecast: fourDayResult.days,
     };
   }
@@ -598,7 +626,6 @@ function valueForRegion(
   if (!values || !region) return null;
   return numberOrNull(values[region]);
 }
-
 
 function defaultRegions(): RegionMetadata[] {
   return [

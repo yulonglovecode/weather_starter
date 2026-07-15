@@ -14,11 +14,7 @@ export function MapCard(): JSX.Element {
   const expandButtonRef = useRef<HTMLButtonElement>(null);
 
   return (
-    <TileShell
-      icon={<MapPinIcon className="h-3.5 w-3.5" />}
-      title="Map"
-      className="col-span-2"
-    >
+    <TileShell icon={<MapPinIcon className="h-3.5 w-3.5" />} title="Map" className="col-span-2">
       {/* Wrapper with relative positioning for the expand button overlay */}
       <div className="relative">
         {/* Compact map container */}

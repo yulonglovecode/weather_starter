@@ -59,6 +59,7 @@ cd frontend && npx vitest run
 ```
 
 Test suite breakdown:
+
 - **Backend** (`vitest.config.ts` at root): integration tests in
   `backend/src/**/*.test.ts`, run with `pool: forks` and
   `fileParallelism: false`. Each test suite creates an isolated SQLite
@@ -114,23 +115,23 @@ npm run reset
 
 Copy `.env.example` to `.env` at the repo root.
 
-| Variable | Default | Description |
-|---|---|---|
-| `WEATHER_API_KEY` | _(empty)_ | Optional data.gov.sg API key for higher rate limits |
-| `PORTLESS_PORT` | `1355` | Local dev server port |
-| `PORTLESS_HTTPS` | `0` | Set to `1` to enable HTTPS in dev |
-| `DATABASE_PATH` | `backend/weather.db` | SQLite database file location |
-| `LOG_LEVEL` | `info` | Pino log level (`silent` in tests) |
-| `PORT` | `3000` | HTTP port when running `node dist/server.js` directly |
+| Variable          | Default              | Description                                           |
+| ----------------- | -------------------- | ----------------------------------------------------- |
+| `WEATHER_API_KEY` | _(empty)_            | Optional data.gov.sg API key for higher rate limits   |
+| `PORTLESS_PORT`   | `1355`               | Local dev server port                                 |
+| `PORTLESS_HTTPS`  | `0`                  | Set to `1` to enable HTTPS in dev                     |
+| `DATABASE_PATH`   | `backend/weather.db` | SQLite database file location                         |
+| `LOG_LEVEL`       | `info`               | Pino log level (`silent` in tests)                    |
+| `PORT`            | `3000`               | HTTP port when running `node dist/server.js` directly |
 
 For the frontend Vite dev server, copy `frontend/.env.local.example` to
 `frontend/.env.local` (only needed when running frontend independently from
 the backend):
 
-| Variable | Description |
-|---|---|
-| `VITE_BACKEND_PORT` | Backend port for API proxying |
-| `VITE_API_TARGET` | Full API base URL (overrides `VITE_BACKEND_PORT`) |
+| Variable            | Description                                       |
+| ------------------- | ------------------------------------------------- |
+| `VITE_BACKEND_PORT` | Backend port for API proxying                     |
+| `VITE_API_TARGET`   | Full API base URL (overrides `VITE_BACKEND_PORT`) |
 
 ---
 

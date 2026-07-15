@@ -47,10 +47,11 @@ Top-level tile component. Placed inside `TileGrid` with `col-span-2`.
 
 ```tsx
 // frontend/src/components/MapCard.tsx
-export function MapCard(): JSX.Element
+export function MapCard(): JSX.Element;
 ```
 
 Responsibilities:
+
 - Read `locations`, `selectedId`, `select` from `useStore()`.
 - Manage `isFullscreen` local state.
 - Render `TileShell` with a map pin icon and "Map" title.
@@ -72,10 +73,11 @@ interface FullscreenMapViewProps {
   expandButtonRef: React.RefObject<HTMLButtonElement>;
 }
 
-function FullscreenMapView(props: FullscreenMapViewProps): JSX.Element
+function FullscreenMapView(props: FullscreenMapViewProps): JSX.Element;
 ```
 
 Responsibilities:
+
 - Cover `100vw × 100vh` with `position: fixed; inset: 0; z-index: 9999`.
 - Render `MapContainer` with full interaction (zoom buttons, drag, scroll-zoom).
 - Render attribution visible at bottom-right (Leaflet default).
@@ -94,10 +96,11 @@ interface MapControllerProps {
   padding: number; // px — passed as [padding, padding] to fitBounds
 }
 
-function MapController({ locations, padding }: MapControllerProps): null
+function MapController({ locations, padding }: MapControllerProps): null;
 ```
 
 Uses `useMap()` from `react-leaflet`. Runs a `useEffect` keyed on `locations` to:
+
 - Zero locations → `map.setView([0, 0], 2)`.
 - One location → `map.setView([lat, lng], 12)`.
 - Two or more locations → `map.fitBounds(bounds, { padding: [padding, padding] })`.
@@ -113,10 +116,11 @@ interface MapPinProps {
   onSelect: (id: number) => void;
 }
 
-function MapPin({ location, isSelected, onSelect }: MapPinProps): JSX.Element
+function MapPin({ location, isSelected, onSelect }: MapPinProps): JSX.Element;
 ```
 
 Uses `react-leaflet`'s `<Marker>` with a custom `DivIcon` whose HTML is a small rendered div. The pin circle is:
+
 - **Unselected**: 12 × 12 px, `bg-sky-400`, white border.
 - **Selected**: 20 × 20 px (≥ 1.5× unselected), `bg-amber-400`, white border, drop-shadow.
 
@@ -127,7 +131,7 @@ The `Marker` registers `eventHandlers` for `click` to call `onSelect`. The keybo
 Rendered as the tooltip-like text inside the `DivIcon` HTML string above the pin circle.
 
 ```tsx
-function formatWeatherLabel(weather: WeatherSnapshot): string
+function formatWeatherLabel(weather: WeatherSnapshot): string;
 ```
 
 Pure function — no JSX, produces a plain string for use inside the `DivIcon` HTML. Logic:
@@ -139,6 +143,7 @@ Pure function — no JSX, produces a plain string for use inside the `DivIcon` H
 ### `TileShell` (existing, unchanged)
 
 `MapCard` reuses `TileShell` directly from `Tiles.tsx` via a named export or inline duplication if a shared export is not available. Since `TileShell` is not currently exported, `MapCard` either:
+
 - Exports `TileShell` from `Tiles.tsx` (preferred — single source of truth), or
 - Inlines a functionally identical `MapTileShell`.
 
@@ -149,8 +154,8 @@ The preferred approach is to add `export` to `TileShell` in `Tiles.tsx`.
 Two icons are added to `icons.tsx`:
 
 ```tsx
-export function MapPinIcon({ className }: IconProps): JSX.Element
-export function ExpandIcon({ className }: IconProps): JSX.Element
+export function MapPinIcon({ className }: IconProps): JSX.Element;
+export function ExpandIcon({ className }: IconProps): JSX.Element;
 ```
 
 ---
@@ -184,57 +189,57 @@ const [isFullscreen, setIsFullscreen] = useState<boolean>(false);
 
 ### `formatWeatherLabel` input/output contract
 
-| `temperature_c`     | `condition`  | Output             |
-|---------------------|--------------|--------------------|
-| finite number       | any          | `"24°"`            |
-| null / non-finite   | non-null     | `"Partly Cloudy"` (truncated to 12 + `…` if longer) |
-| null / non-finite   | null         | `"--"`             |
+| `temperature_c`   | `condition` | Output                                              |
+| ----------------- | ----------- | --------------------------------------------------- |
+| finite number     | any         | `"24°"`                                             |
+| null / non-finite | non-null    | `"Partly Cloudy"` (truncated to 12 + `…` if longer) |
+| null / non-finite | null        | `"--"`                                              |
 
 ---
 
 ## Correctness Properties
 
-*A property is a characteristic or behavior that should hold true across all valid executions of a system — essentially, a formal statement about what the system should do. Properties serve as the bridge between human-readable specifications and machine-verifiable correctness guarantees.*
+_A property is a characteristic or behavior that should hold true across all valid executions of a system — essentially, a formal statement about what the system should do. Properties serve as the bridge between human-readable specifications and machine-verifiable correctness guarantees._
 
 ### Property 1: Weather label finite temperature display
 
-*For any* `WeatherSnapshot` where `temperature_c` is a finite number, `formatWeatherLabel` SHALL return a string equal to `Math.round(temperature_c)` followed by `"°"`.
+_For any_ `WeatherSnapshot` where `temperature_c` is a finite number, `formatWeatherLabel` SHALL return a string equal to `Math.round(temperature_c)` followed by `"°"`.
 
 **Validates: Requirements 3.1**
 
 ### Property 2: Weather label condition fallback
 
-*For any* `WeatherSnapshot` where `temperature_c` is null or non-finite and `condition` is a non-null string, `formatWeatherLabel` SHALL return a string that is either the full condition string (if its length ≤ 12) or the first 12 characters followed by `"…"`.
+_For any_ `WeatherSnapshot` where `temperature_c` is null or non-finite and `condition` is a non-null string, `formatWeatherLabel` SHALL return a string that is either the full condition string (if its length ≤ 12) or the first 12 characters followed by `"…"`.
 
 **Validates: Requirements 3.2**
 
 ### Property 3: Weather label null fallback
 
-*For any* `WeatherSnapshot` where `temperature_c` is null or non-finite and `condition` is null, `formatWeatherLabel` SHALL return `"--"`.
+_For any_ `WeatherSnapshot` where `temperature_c` is null or non-finite and `condition` is null, `formatWeatherLabel` SHALL return `"--"`.
 
 **Validates: Requirements 3.3**
 
 ### Property 4: Weather label output length bound
 
-*For any* `WeatherSnapshot` where `temperature_c` is null or non-finite and `condition` is a non-null string, the string returned by `formatWeatherLabel` SHALL never exceed 13 characters (12 content characters + `"…"`).
+_For any_ `WeatherSnapshot` where `temperature_c` is null or non-finite and `condition` is a non-null string, the string returned by `formatWeatherLabel` SHALL never exceed 13 characters (12 content characters + `"…"`).
 
 **Validates: Requirements 3.2**
 
 ### Property 5: Pin count matches location count
 
-*For any* array of `Location` objects passed to `MapCard`, the number of `MapPin` markers rendered in the map SHALL equal the length of that array (including zero).
+_For any_ array of `Location` objects passed to `MapCard`, the number of `MapPin` markers rendered in the map SHALL equal the length of that array (including zero).
 
 **Validates: Requirements 2.1, 2.2**
 
 ### Property 6: Selected pin visual distinction
 
-*For any* array of `Location` objects and any `selectedId` value (including null), the set of `MapPin` markers with the selected visual style SHALL be exactly those whose `location.id` equals `selectedId`. When `selectedId` is null, no pin SHALL have the selected style.
+_For any_ array of `Location` objects and any `selectedId` value (including null), the set of `MapPin` markers with the selected visual style SHALL be exactly those whose `location.id` equals `selectedId`. When `selectedId` is null, no pin SHALL have the selected style.
 
 **Validates: Requirements 2.5, 7.1, 7.4**
 
 ### Property 7: Pin click triggers correct selection
 
-*For any* array of `Location` objects, when the user clicks or activates any `MapPin`, the `select` action SHALL be called with exactly that pin's `location.id` and no other id.
+_For any_ array of `Location` objects, when the user clicks or activates any `MapPin`, the `select` action SHALL be called with exactly that pin's `location.id` and no other id.
 
 **Validates: Requirements 7.2**
 
@@ -242,14 +247,14 @@ const [isFullscreen, setIsFullscreen] = useState<boolean>(false);
 
 ## Error Handling
 
-| Scenario | Behavior |
-|---|---|
-| Tile provider network failure | Leaflet renders blank tiles; no error thrown. The rest of the card remains functional. |
+| Scenario                                                   | Behavior                                                                                                                                                                                             |
+| ---------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Tile provider network failure                              | Leaflet renders blank tiles; no error thrown. The rest of the card remains functional.                                                                                                               |
 | `location.latitude` / `longitude` is `NaN` or out-of-range | Leaflet silently clips the coordinate. `MapController`'s `fitBounds` call is guarded with a check that all coordinates are finite numbers before calling `fitBounds`; malformed entries are skipped. |
-| Zero locations on mount | `MapController` sets view to `(0, 0)` zoom 2. The overlay "No saved locations" message is displayed. |
-| `weather` is `undefined` or `null` on a `Location` | `formatWeatherLabel` treats all fields as absent → returns `"--"`. |
-| Portal target (`document.body`) unavailable during SSR | Not applicable — this is a Vite/browser-only app. |
-| Focus return fails (expand button unmounted) | `expandButtonRef.current` is checked before calling `.focus()`; failure is silently ignored. |
+| Zero locations on mount                                    | `MapController` sets view to `(0, 0)` zoom 2. The overlay "No saved locations" message is displayed.                                                                                                 |
+| `weather` is `undefined` or `null` on a `Location`         | `formatWeatherLabel` treats all fields as absent → returns `"--"`.                                                                                                                                   |
+| Portal target (`document.body`) unavailable during SSR     | Not applicable — this is a Vite/browser-only app.                                                                                                                                                    |
+| Focus return fails (expand button unmounted)               | `expandButtonRef.current` is checked before calling `.focus()`; failure is silently ignored.                                                                                                         |
 
 ---
 
@@ -264,6 +269,7 @@ This feature is primarily a UI / React component with one pure utility function 
 Located in `frontend/src/components/__tests__/MapCard.test.tsx`.
 
 Covers:
+
 - `MapCard` renders the "No saved locations" overlay when `locations` is empty.
 - `MapCard` renders `n` pins for `n` locations (smoke: 1, 3).
 - The selected pin is visually distinct (has the selected CSS class).
@@ -289,51 +295,65 @@ Each test runs a minimum of **100 iterations**.
 ```
 
 **Property 1 — finite temperature display**
+
 ```
 Feature: weather-map-card, Property 1: Weather label finite temperature display
 ```
+
 Generator: arbitrary finite `number` for `temperature_c`, arbitrary nullable `condition`.
 Assert: output === `${Math.round(temperature_c)}°`.
 
 **Property 2 — condition fallback**
+
 ```
 Feature: weather-map-card, Property 2: Weather label condition fallback
 ```
+
 Generator: non-finite / null `temperature_c`, arbitrary non-empty `string` for `condition`.
 Assert: output is either the full condition (≤ 12 chars) or `condition.slice(0,12) + '…'` (> 12 chars).
 
 **Property 3 — null fallback**
+
 ```
 Feature: weather-map-card, Property 3: Weather label null fallback
 ```
+
 Generator: null/NaN `temperature_c`, null `condition`.
 Assert: output === `"--"`.
 
 **Property 4 — output length bound**
+
 ```
 Feature: weather-map-card, Property 4: Weather label output length bound
 ```
+
 Generator: null/NaN `temperature_c`, arbitrary non-null `string` for `condition`.
 Assert: output.length ≤ 13.
 
 **Property 5 — pin count matches location count**
+
 ```
 Feature: weather-map-card, Property 5: Pin count matches location count
 ```
+
 Generator: arbitrary array of valid `Location` objects (0–20 entries).
 Assert: rendered marker count (queried from DOM) equals `locations.length`.
 
 **Property 6 — selected pin visual distinction**
+
 ```
 Feature: weather-map-card, Property 6: Selected pin visual distinction
 ```
+
 Generator: arbitrary array of `Location` objects and arbitrary `selectedId` (one of the ids, or null).
 Assert: exactly the pins matching `selectedId` have the selected CSS class; all others do not.
 
 **Property 7 — pin click triggers correct selection**
+
 ```
 Feature: weather-map-card, Property 7: Pin click triggers correct selection
 ```
+
 Generator: arbitrary array of `Location` objects (1–10), arbitrary index to click.
 Assert: mock `select` function is called once with `locations[clickedIndex].id`.
 

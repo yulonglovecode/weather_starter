@@ -103,7 +103,7 @@ export function StoreProvider({ children }: ProviderProps) {
       try {
         await deleteLocationRequest(id);
         const next = await load();
-        setSelectedId((current) => (current === id ? next[0]?.id ?? null : current));
+        setSelectedId((current) => (current === id ? (next[0]?.id ?? null) : current));
         logInteraction('location_deleted', { locationId: id });
       } catch (err) {
         setError(err);

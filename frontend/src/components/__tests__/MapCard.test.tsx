@@ -5,7 +5,7 @@
  */
 
 import React from 'react';
-import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest';
+import { describe, it, expect, vi, afterEach } from 'vitest';
 import { render, screen, cleanup, fireEvent } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import type { Location, WeatherSnapshot } from '../../types';
@@ -202,9 +202,7 @@ describe('MapCard unit tests', () => {
   // -----------------------------------------------------------------------
   it('selected pin has map-pin-selected class; unselected pins have map-pin-unselected', () => {
     const locations = [makeLocation(1), makeLocation(2), makeLocation(3)];
-    vi.mocked(useStore).mockReturnValue(
-      makeDefaultStore({ locations, selectedId: 2 }) as any,
-    );
+    vi.mocked(useStore).mockReturnValue(makeDefaultStore({ locations, selectedId: 2 }) as any);
     const { container } = render(<MapCard />);
     const markers = container.querySelectorAll('[data-testid="marker"]');
 
@@ -227,9 +225,7 @@ describe('MapCard unit tests', () => {
   it('clicking a pin calls select with the correct location id', () => {
     const select = vi.fn();
     const locations = [makeLocation(10), makeLocation(20), makeLocation(30)];
-    vi.mocked(useStore).mockReturnValue(
-      makeDefaultStore({ locations, select }) as any,
-    );
+    vi.mocked(useStore).mockReturnValue(makeDefaultStore({ locations, select }) as any);
     const { container } = render(<MapCard />);
     const markers = container.querySelectorAll('[data-testid="marker"]');
 

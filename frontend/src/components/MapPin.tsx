@@ -13,9 +13,7 @@ interface MapPinProps {
 function buildDivIcon(label: string, isSelected: boolean): L.DivIcon {
   const size = isSelected ? 20 : 12;
   const color = isSelected ? '#fbbf24' : '#38bdf8'; // amber-400 : sky-400
-  const shadow = isSelected
-    ? 'filter: drop-shadow(0 2px 4px rgba(0,0,0,0.5));'
-    : '';
+  const shadow = isSelected ? 'filter: drop-shadow(0 2px 4px rgba(0,0,0,0.5));' : '';
 
   const labelHtml = `
     <div style="

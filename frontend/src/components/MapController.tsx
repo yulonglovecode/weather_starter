@@ -33,7 +33,7 @@ export function MapController({ locations, padding }: MapControllerProps): null 
 
       map.fitBounds(bounds, { padding: [padding, padding] });
     }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [locations]);
 
   return null;

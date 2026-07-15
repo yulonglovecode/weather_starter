@@ -1,11 +1,4 @@
-import {
-  createContext,
-  useCallback,
-  useContext,
-  useEffect,
-  useState,
-  type ReactNode,
-} from 'react';
+import { createContext, useCallback, useContext, useEffect, useState, type ReactNode } from 'react';
 import { themes, defaultThemeId, type Theme } from './themes';
 
 const STORAGE_KEY = 'weather-theme';
@@ -54,11 +47,7 @@ export function ThemeProvider({ children }: { children: ReactNode }) {
     }
   }, []);
 
-  return (
-    <ThemeContext.Provider value={{ theme, setThemeId }}>
-      {children}
-    </ThemeContext.Provider>
-  );
+  return <ThemeContext.Provider value={{ theme, setThemeId }}>{children}</ThemeContext.Provider>;
 }
 
 export function useTheme(): ThemeContextValue {
