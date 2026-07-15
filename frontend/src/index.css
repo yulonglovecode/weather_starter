@@ -318,3 +318,122 @@ input:focus-visible {
 [data-theme='midnight'] input::placeholder {
   color: rgba(0, 255, 136, 0.35) !important;
 }
+
+/* ─── Desert Sandstorm — dark warm earth tones ──────────────────────────── */
+/*
+ * Character: sunset orange + terracotta gradient body, amber accent (#f59e0b)
+ * warming the muted text and borders. Card surfaces shift from near-invisible
+ * blue-tinted glass to warm orange-brown panels. White text stays white;
+ * only muted/dim values are shifted toward amber so the heat reads through.
+ */
+
+/* ── Muted text: shift dim whites → warm amber tints ── */
+[data-theme='desert'] .text-white\/55,
+[data-theme='desert'] .text-white\/60 {
+  color: rgba(251, 191, 36, 0.70) !important;
+}
+
+[data-theme='desert'] .text-white\/65,
+[data-theme='desert'] .text-white\/70 {
+  color: rgba(251, 191, 36, 0.80) !important;
+}
+
+[data-theme='desert'] .text-white\/75,
+[data-theme='desert'] .text-white\/80 {
+  color: rgba(255, 220, 150, 0.88) !important;
+}
+
+/* ── Card surfaces: replace translucent with warm earthy panels ── */
+[data-theme='desert'] .bg-white\/\[0\.08\],
+[data-theme='desert'] .bg-white\/\[0\.07\],
+[data-theme='desert'] .bg-white\/\[0\.06\],
+[data-theme='desert'] .bg-white\/\[0\.04\],
+[data-theme='desert'] .bg-white\/\[0\.1\],
+[data-theme='desert'] .bg-white\/\[0\.10\] {
+  background-color: rgba(120, 50, 10, 0.45) !important;
+}
+
+/* Selected sidebar card */
+[data-theme='desert'] .bg-white\/20 {
+  background-color: rgba(160, 70, 15, 0.60) !important;
+}
+
+/* Hover states */
+[data-theme='desert'] .hover\:bg-white\/\[0\.12\]:hover {
+  background-color: rgba(140, 60, 12, 0.55) !important;
+}
+[data-theme='desert'] .hover\:bg-white\/\[0\.14\]:hover {
+  background-color: rgba(150, 65, 14, 0.58) !important;
+}
+
+/* Scale-bar track and small bg tints */
+[data-theme='desert'] .bg-white\/10       { background-color: rgba(251, 191, 36, 0.15) !important; }
+[data-theme='desert'] .bg-white\/\[0\.04\] { background-color: rgba(251, 191, 36, 0.08) !important; }
+[data-theme='desert'] .bg-white\/70        { background-color: rgba(251, 191, 36, 0.60) !important; }
+
+/* Delete / icon button backing */
+[data-theme='desert'] .bg-black\/20 { background-color: rgba(0, 0, 0, 0.35) !important; }
+
+/* Add-location submit pill → amber button */
+[data-theme='desert'] .bg-white\/90 {
+  background-color: #f59e0b !important;
+  color: #1c0a00 !important;
+}
+[data-theme='desert'] .hover\:bg-white:hover {
+  background-color: #fbbf24 !important;
+  color: #1c0a00 !important;
+}
+
+/* Refresh footer button */
+[data-theme='desert'] .hover\:bg-white\/\[0\.14\]:hover {
+  background-color: rgba(160, 70, 15, 0.55) !important;
+}
+
+/* ── Borders: warm amber-tinted ── */
+[data-theme='desert'] .border-white\/5,
+[data-theme='desert'] .border-white\/10,
+[data-theme='desert'] .border-white\/15 {
+  border-color: rgba(245, 158, 11, 0.20) !important;
+}
+
+[data-theme='desert'] .border-white\/20 {
+  border-color: rgba(245, 158, 11, 0.25) !important;
+}
+
+[data-theme='desert'] .border-white\/30 {
+  border-color: rgba(245, 158, 11, 0.35) !important;
+}
+
+/* Dividers */
+[data-theme='desert'] .divide-white\/5 > * + * {
+  border-color: rgba(245, 158, 11, 0.12) !important;
+}
+
+/* ThemeSelector dropdown panel */
+[data-theme='desert'] .bg-slate-900\/80 {
+  background-color: rgba(60, 25, 5, 0.95) !important;
+  border-color: rgba(245, 158, 11, 0.25) !important;
+}
+
+/* Scrollbar */
+[data-theme='desert'] ::-webkit-scrollbar-thumb {
+  background: rgba(245, 158, 11, 0.25);
+  border-radius: 9999px;
+}
+
+/* Focus ring → amber glow */
+[data-theme='desert'] button:focus-visible,
+[data-theme='desert'] input:focus-visible {
+  --tw-ring-color: rgba(245, 158, 11, 0.45);
+}
+
+/* Input fields */
+[data-theme='desert'] input[type='text'],
+[data-theme='desert'] input[type='number'] {
+  background-color: rgba(80, 30, 5, 0.60) !important;
+  border-color: rgba(245, 158, 11, 0.22) !important;
+  color: #ffffff !important;
+}
+[data-theme='desert'] input::placeholder {
+  color: rgba(251, 191, 36, 0.40) !important;
+}
