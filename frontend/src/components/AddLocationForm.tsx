@@ -9,6 +9,34 @@ export function AddLocationForm() {
   const [longitude, setLongitude] = useState('');
   const [submitting, setSubmitting] = useState(false);
   const [submitError, setSubmitError] = useState<string | null>(null);
+  const [locating, setLocating] = useState(false);
+
+  const useMyLocation = () => {
+    setSubmitError(null);
+    setLocating(true);
+    navigator.geolocation.getCurrentPosition(
+      (position) => {
+        const { latitude: lat, longitude: lon } = position.coords;
+        if (lat < 1.1 || lat > 1.5 || lon < 103.6 || lon > 104.1) {
+          setSubmitError('Location appears to be outside Singapore');
+          setLocating(false);
+          return;
+        }
+        setLatitude(lat.toFixed(6));
+        setLongitude(lon.toFixed(6));
+        setLocating(false);
+      },
+      (error) => {
+        setSubmitError(
+          error.code === error.PERMISSION_DENIED
+            ? 'Location access denied — check your browser permissions'
+            : 'Could not get location — please try again',
+        );
+        setLocating(false);
+      },
+      { enableHighAccuracy: true, timeout: 10000 },
+    );
+  };
 
   const cancel = () => {
     setLatitude('');
@@ -54,7 +82,7 @@ export function AddLocationForm() {
         New coordinate
       </p>
       <div className="grid grid-cols-2 gap-2">
-        <label className="grid gap-1">
+        <label className="grid min-w-0 gap-1">
           <span className="text-[11px] text-white/60">Latitude</span>
           <input
             type="number"
@@ -63,10 +91,10 @@ export function AddLocationForm() {
             onChange={(e) => setLatitude(e.target.value)}
             placeholder="1.3508"
             required
-            className="rounded-md border border-white/15 bg-white/10 px-2 py-1.5 text-sm text-white placeholder:text-white/40"
+            className="min-w-0 rounded-md border border-white/15 bg-white/10 px-2 py-1.5 text-sm text-white placeholder:text-white/40"
           />
         </label>
-        <label className="grid gap-1">
+        <label className="grid min-w-0 gap-1">
           <span className="text-[11px] text-white/60">Longitude</span>
           <input
             type="number"
@@ -75,10 +103,18 @@ export function AddLocationForm() {
             onChange={(e) => setLongitude(e.target.value)}
             placeholder="103.8390"
             required
-            className="rounded-md border border-white/15 bg-white/10 px-2 py-1.5 text-sm text-white placeholder:text-white/40"
+            className="min-w-0 rounded-md border border-white/15 bg-white/10 px-2 py-1.5 text-sm text-white placeholder:text-white/40"
           />
         </label>
       </div>
+      <button
+        type="button"
+        onClick={useMyLocation}
+        disabled={locating || submitting}
+        className="flex w-full items-center justify-center gap-1.5 rounded-md border border-white/15 bg-white/[0.07] px-2.5 py-1.5 text-xs font-medium text-white/70 hover:bg-white/[0.12] disabled:cursor-not-allowed disabled:opacity-50"
+      >
+        {locating ? 'Locating…' : '⌖ Use my location'}
+      </button>
       <div className="flex items-center justify-end gap-2">
         <button
           type="button"
