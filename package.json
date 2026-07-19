@@ -16,11 +16,13 @@
     "db:migrate": "drizzle-kit migrate",
     "format": "prettier --write .",
     "format:check": "prettier --check .",
-    "lint": "eslint ."
+    "lint": "eslint .",
+    "docs": "npm run dev -w weather-starter-docs"
   },
   "workspaces": [
     "frontend",
-    "backend"
+    "backend",
+    "docs"
   ],
   "dependencies": {
     "@vitejs/plugin-react": "^5.1.4",
